@@ -1,9 +1,9 @@
 {
-  "name": "saturn-datepicker",
-  "version": "6.0.1",
-  "repository": "https://github.com/TheSaturn/saturn-datepicker",
+  "name": "mat-range-datepicker",
+  "version": "0.2.0",
+  "repository": "https://github.com/Sugarball/mat-range-datepicker",
   "keywords": ["angular", "material", "datepicker", "range datepicker"],
-  "author": "saturn <saturn@saturn.team>",
+  "author": "sugarball <jayden@interactivelabs.co>",
   "license": "MIT",
   "private": false,
   "peerDependencies": {

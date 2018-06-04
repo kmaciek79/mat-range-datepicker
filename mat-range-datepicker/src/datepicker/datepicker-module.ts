@@ -67,4 +67,4 @@ import {SatYearView} from './year-view';
         SatCalendarHeader,
     ]
 })
-export class SatDatepickerModule {}
+export class MatRangeDatepickerModule {}

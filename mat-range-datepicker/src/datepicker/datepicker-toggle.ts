@@ -35,7 +35,7 @@ export class SatDatepickerToggleIcon {
 
 @Component({
     moduleId: module.id,
-    selector: 'sat-datepicker-toggle',
+    selector: 'mat-range-datepicker-toggle',
     templateUrl: 'datepicker-toggle.html',
     styleUrls: ['datepicker-toggle.css'],
     host: {

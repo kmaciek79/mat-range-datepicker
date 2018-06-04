@@ -40,24 +40,24 @@ API has been completely changed.
 ## It's awesome, but how to use it?
 
 As easy as pie.
-Installation: `yarn add saturn-datepicker` or `npm install saturn-datepicker`
+Installation: `yarn add mat-range-datepicker` or `npm install mat-range-datepicker`
 Import `SatDatepickerModule`, `SatNativeDateModule` and `MatDatepickerModule`
 ```angular2html
   <mat-form-field>
     <input matInput [satDatepicker]="resultPicker">
-    <sat-datepicker
+    <mat-range-datepicker
         #resultPicker
         [rangeMode]="true">
-    </sat-datepicker>
+    </mat-range-datepicker>
    </mat-form-field>
 ```
 
 Add styles:
-* If you are using CSS: copy-paste or include somehow the file `saturn-datepicker/bundle.css`
+* If you are using CSS: copy-paste or include somehow the file `mat-range-datepicker/bundle.css`
 * If you are using SCSS: 
 ```scss
-@import '~saturn-datepicker/theming';
-@include sat-datepicker-theme($theme); # material theme data structure https://material.angular.io/guide/theming#defining-a-custom-theme
+@import '~mat-range-datepicker/theming';
+@include mat-range-datepicker-theme($theme); # material theme data structure https://material.angular.io/guide/theming#defining-a-custom-theme
 ```
 
 ## ngModel/formControl value have this interface:

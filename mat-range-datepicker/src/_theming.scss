@@ -1,6 +1,6 @@
 @import '~@angular/material/theming';
 
-@mixin sat-datepicker-theme($theme) {
+@mixin mat-range-datepicker-theme($theme) {
   @include mat-datepicker-theme($theme);
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);

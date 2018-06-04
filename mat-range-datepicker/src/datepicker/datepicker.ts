@@ -55,7 +55,7 @@ let datepickerUid = 0;
 
 /** Injection token that determines the scroll handling while the calendar is open. */
 export const MAT_DATEPICKER_SCROLL_STRATEGY =
-    new InjectionToken<() => ScrollStrategy>('sat-datepicker-scroll-strategy', {
+    new InjectionToken<() => ScrollStrategy>('mat-range-datepicker-scroll-strategy', {
       providedIn: 'root',
       factory: MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY,
     });
@@ -82,7 +82,7 @@ export const _SatDatepickerContentMixinBase = mixinColor(SatDatepickerContentBas
  */
 @Component({
   moduleId: module.id,
-  selector: 'sat-datepicker-content',
+  selector: 'mat-range-datepicker-content',
   templateUrl: 'datepicker-content.html',
   styleUrls: ['datepicker-content.css'],
   host: {
@@ -161,7 +161,7 @@ export class SatDatepickerContent<D> extends _SatDatepickerContentMixinBase
 /** Component responsible for managing the datepicker popup/dialog. */
 @Component({
   moduleId: module.id,
-  selector: 'sat-datepicker',
+  selector: 'mat-range-datepicker',
   template: '',
   exportAs: 'matDatepicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -291,7 +291,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
   private _opened = false;
 
   /** The id for the datepicker calendar. */
-  id: string = `sat-datepicker-${datepickerUid++}`;
+  id: string = `mat-range-datepicker-${datepickerUid++}`;
 
   /** The currently selected date. */
   get _selected(): D | null { return this._validSelected; }
