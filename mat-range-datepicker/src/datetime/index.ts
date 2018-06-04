@@ -32,4 +32,4 @@ export class NativeDateModule {}
     imports: [NativeDateModule],
     providers: [{provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS}],
 })
-export class SatNativeDateModule {}
+export class MatRangeNativeDateModule {}

@@ -259,6 +259,7 @@
     }
   },
   "cli": {},
+  "defaultProject": "mat-range-datepicker",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

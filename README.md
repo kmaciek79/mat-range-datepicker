@@ -41,7 +41,7 @@ API has been completely changed.
 
 As easy as pie.
 Installation: `yarn add mat-range-datepicker` or `npm install mat-range-datepicker`
-Import `SatDatepickerModule`, `SatNativeDateModule` and `MatDatepickerModule`
+Import `MatRangeDatepickerModule`, `MatRangeNativeDateModule` and `MatDatepickerModule`
 ```angular2html
   <mat-form-field>
     <input matInput [satDatepicker]="resultPicker">
