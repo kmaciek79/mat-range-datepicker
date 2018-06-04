@@ -44,7 +44,7 @@ Installation: `yarn add mat-range-datepicker` or `npm install mat-range-datepick
 Import `MatRangeDatepickerModule`, `MatRangeNativeDateModule` and `MatDatepickerModule`
 ```angular2html
   <mat-form-field>
-    <input matInput [satDatepicker]="resultPicker">
+    <input matInput [matRangeDatepicker]="resultPicker">
     <mat-range-datepicker
         #resultPicker
         [rangeMode]="true">
@@ -62,7 +62,7 @@ Add styles:
 
 ## ngModel/formControl value have this interface:
 ```typescript
-export interface SatDatepickerRangeValue<D> {
+export interface matRangeDatepickerRangeValue<D> {
   begin: D | null;
   end: D | null;
 }

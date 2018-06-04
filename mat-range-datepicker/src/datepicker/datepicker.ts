@@ -47,7 +47,7 @@ import {merge, Subject, Subscription} from 'rxjs';
 import {SatCalendar} from './calendar';
 import {matDatepickerAnimations} from './datepicker-animations';
 import {createMissingDateImplError} from './datepicker-errors';
-import {SatDatepickerInput, SatDatepickerRangeValue} from './datepicker-input';
+import {matRangeDatepickerInput, matRangeDatepickerRangeValue} from './datepicker-input';
 import {DateAdapter} from '../datetime/date-adapter';
 
 /** Used to generate a unique ID for each datepicker instance. */
@@ -66,12 +66,12 @@ export function MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY(): () => ScrollStrategy {
   return () => overlay.scrollStrategies.reposition();
 }
 
-// Boilerplate for applying mixins to SatDatepickerContent.
+// Boilerplate for applying mixins to matRangeDatepickerContent.
 /** @docs-private */
-export class SatDatepickerContentBase {
+export class matRangeDatepickerContentBase {
   constructor(public _elementRef: ElementRef) { }
 }
-export const _SatDatepickerContentMixinBase = mixinColor(SatDatepickerContentBase);
+export const _matRangeDatepickerContentMixinBase = mixinColor(matRangeDatepickerContentBase);
 
 /**
  * Component used as the content for the datepicker dialog and popup. We use this instead of using
@@ -100,7 +100,7 @@ export const _SatDatepickerContentMixinBase = mixinColor(SatDatepickerContentBas
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: ['color'],
 })
-export class SatDatepickerContent<D> extends _SatDatepickerContentMixinBase
+export class matRangeDatepickerContent<D> extends _matRangeDatepickerContentMixinBase
   implements AfterViewInit, CanColor, OnInit, OnDestroy {
 
   /** Subscription to changes in the overlay's position. */
@@ -110,7 +110,7 @@ export class SatDatepickerContent<D> extends _SatDatepickerContentMixinBase
   @ViewChild(SatCalendar) _calendar: SatCalendar<D>;
 
   /** Reference to the datepicker that created the overlay. */
-  datepicker: SatDatepicker<D>;
+  datepicker: matRangeDatepicker<D>;
 
   /** Whether the datepicker is above or below the input. */
   _isAbove: boolean;
@@ -167,7 +167,7 @@ export class SatDatepickerContent<D> extends _SatDatepickerContentMixinBase
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SatDatepicker<D> implements OnDestroy, CanColor {
+export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Whenever datepicker is for selecting range of dates. */
   @Input()
@@ -212,7 +212,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
     // selected value is.
     if (this.rangeMode) {
       return this._startAt || (this._datepickerInput && this._datepickerInput.value ?
-        (<SatDatepickerRangeValue<D>>this._datepickerInput.value).begin : null);
+        (<matRangeDatepickerRangeValue<D>>this._datepickerInput.value).begin : null);
     }
     return this._startAt || (this._datepickerInput ? <D|null>this._datepickerInput.value : null);
   }
@@ -316,13 +316,13 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
   _popupRef: OverlayRef;
 
   /** A reference to the dialog when the calendar is opened as a dialog. */
-  private _dialogRef: MatDialogRef<SatDatepickerContent<D>> | null;
+  private _dialogRef: MatDialogRef<matRangeDatepickerContent<D>> | null;
 
   /** A portal containing the calendar for this datepicker. */
-  private _calendarPortal: ComponentPortal<SatDatepickerContent<D>>;
+  private _calendarPortal: ComponentPortal<matRangeDatepickerContent<D>>;
 
   /** Reference to the component instantiated in popup mode. */
-  private _popupComponentRef: ComponentRef<SatDatepickerContent<D>> | null;
+  private _popupComponentRef: ComponentRef<matRangeDatepickerContent<D>> | null;
 
   /** The element that was focused before the datepicker was opened. */
   private _focusedElementBeforeOpen: HTMLElement | null = null;
@@ -331,13 +331,13 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
   private _inputSubscription = Subscription.EMPTY;
 
   /** The input element this datepicker is associated with. */
-  _datepickerInput: SatDatepickerInput<D>;
+  _datepickerInput: matRangeDatepickerInput<D>;
 
   /** Emits when the datepicker is disabled. */
   readonly _disabledChange = new Subject<boolean>();
 
   /** Emits new selected date when selected date changes. */
-  readonly _selectedChanged = new Subject<SatDatepickerRangeValue<D>|D>();
+  readonly _selectedChanged = new Subject<matRangeDatepickerRangeValue<D>|D>();
 
   constructor(private _dialog: MatDialog,
               private _overlay: Overlay,
@@ -374,7 +374,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
 
 
   /** Selects the given date range */
-  _selectRange(dates: SatDatepickerRangeValue<D>): void {
+  _selectRange(dates: matRangeDatepickerRangeValue<D>): void {
     if (!this._dateAdapter.sameDate(dates.begin, this.beginDate) ||
       !this._dateAdapter.sameDate(dates.end, this.endDate)) {
       this._selectedChanged.next(dates);
@@ -396,20 +396,20 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
    * Register an input with this datepicker.
    * @param input The datepicker input to register with this datepicker.
    */
-  _registerInput(input: SatDatepickerInput<D>): void {
+  _registerInput(input: matRangeDatepickerInput<D>): void {
     if (this._datepickerInput) {
-      throw Error('A SatDatepicker can only be associated with a single input.');
+      throw Error('A matRangeDatepicker can only be associated with a single input.');
     }
     this._datepickerInput = input;
     this._inputSubscription =
         this._datepickerInput._valueChange
-          .subscribe((value: SatDatepickerRangeValue<D> | D | null) => {
+          .subscribe((value: matRangeDatepickerRangeValue<D> | D | null) => {
           if (value === null) {
             this.beginDate = this.endDate = this._selected = null;
             return;
           }
           if (this.rangeMode) {
-            value = <SatDatepickerRangeValue<D>>value;
+            value = <matRangeDatepickerRangeValue<D>>value;
             if (value.begin && value.end &&
               this._dateAdapter.compareDate(value.begin, value.end) <= 0) {
               this.beginDate = value.begin;
@@ -429,7 +429,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
       return;
     }
     if (!this._datepickerInput) {
-      throw Error('Attempted to open an SatDatepicker with no associated input.');
+      throw Error('Attempted to open an matRangeDatepicker with no associated input.');
     }
     if (this._document) {
       this._focusedElementBeforeOpen = this._document.activeElement;
@@ -482,7 +482,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
 
   /** Open the calendar as a dialog. */
   private _openAsDialog(): void {
-    this._dialogRef = this._dialog.open<SatDatepickerContent<D>>(SatDatepickerContent, {
+    this._dialogRef = this._dialog.open<matRangeDatepickerContent<D>>(matRangeDatepickerContent, {
       direction: this._getDirection(),
       viewContainerRef: this._viewContainerRef,
       panelClass: 'mat-datepicker-dialog',
@@ -496,7 +496,7 @@ export class SatDatepicker<D> implements OnDestroy, CanColor {
   /** Open the calendar as a popup. */
   private _openAsPopup(): void {
     if (!this._calendarPortal) {
-      this._calendarPortal = new ComponentPortal<SatDatepickerContent<D>>(SatDatepickerContent,
+      this._calendarPortal = new ComponentPortal<matRangeDatepickerContent<D>>(matRangeDatepickerContent,
                                                                           this._viewContainerRef);
     }
 

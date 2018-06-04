@@ -35,27 +35,27 @@ import {MAT_DATE_FORMATS, MatDateFormats} from '../datetime/date-formats';
 import {MatFormField} from '@angular/material/form-field';
 import {MAT_INPUT_VALUE_ACCESSOR} from '@angular/material/input';
 import {Subscription} from 'rxjs';
-import {SatDatepicker} from './datepicker';
+import {matRangeDatepicker} from './datepicker';
 import {createMissingDateImplError} from './datepicker-errors';
 
 
 export const MAT_DATEPICKER_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SatDatepickerInput),
+  useExisting: forwardRef(() => matRangeDatepickerInput),
   multi: true
 };
 
 
 export const MAT_DATEPICKER_VALIDATORS: any = {
   provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SatDatepickerInput),
+  useExisting: forwardRef(() => matRangeDatepickerInput),
   multi: true
 };
 
 /**
  * Special interface to input and output dates interval.
  */
-export interface SatDatepickerRangeValue<D> {
+export interface matRangeDatepickerRangeValue<D> {
   begin: D | null;
   end: D | null;
 }
@@ -63,15 +63,15 @@ export interface SatDatepickerRangeValue<D> {
 /**
  * An event used for datepicker input and change events. We don't always have access to a native
  * input or change event because the event may have been triggered by the user clicking on the
- * calendar popup. For consistency, we always use SatDatepickerInputEvent instead.
+ * calendar popup. For consistency, we always use matRangeDatepickerInputEvent instead.
  */
-export class SatDatepickerInputEvent<D> {
+export class matRangeDatepickerInputEvent<D> {
   /** The new value for the target datepicker input. */
-  value: SatDatepickerRangeValue<D> | D | null;
+  value: matRangeDatepickerRangeValue<D> | D | null;
 
   constructor(
     /** Reference to the datepicker input component that emitted the event. */
-    public target: SatDatepickerInput<D>,
+    public target: matRangeDatepickerInput<D>,
     /** Reference to the native input element associated with the datepicker input. */
     public targetElement: HTMLElement) {
     this.value = this.target.value;
@@ -79,13 +79,13 @@ export class SatDatepickerInputEvent<D> {
 }
 
 
-/** Directive used to connect an input to a SatDatepicker. */
+/** Directive used to connect an input to a matRangeDatepicker. */
 @Directive({
-  selector: 'input[satDatepicker]',
+  selector: 'input[matRangeDatepicker]',
   providers: [
     MAT_DATEPICKER_VALUE_ACCESSOR,
     MAT_DATEPICKER_VALIDATORS,
-    {provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: SatDatepickerInput},
+    {provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: matRangeDatepickerInput},
   ],
   host: {
     '[attr.aria-haspopup]': 'true',
@@ -100,16 +100,16 @@ export class SatDatepickerInputEvent<D> {
   },
   exportAs: 'matDatepickerInput',
 })
-export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAccessor, OnDestroy,
+export class matRangeDatepickerInput<D> implements AfterContentInit, ControlValueAccessor, OnDestroy,
     Validator {
   /** The datepicker that this input is associated with. */
   @Input()
-  set satDatepicker(value: SatDatepicker<D>) {
+  set matRangeDatepicker(value: matRangeDatepicker<D>) {
     this.registerDatepicker(value);
   }
-  _datepicker: SatDatepicker<D>;
+  _datepicker: matRangeDatepicker<D>;
 
-  private registerDatepicker(value: SatDatepicker<D>) {
+  private registerDatepicker(value: matRangeDatepicker<D>) {
     if (value) {
       this._datepicker = value;
       this._datepicker._registerInput(this);
@@ -122,24 +122,24 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
     this._dateFilter = value;
     this._validatorOnChange();
   }
-  _dateFilter: (date: SatDatepickerRangeValue<D> | D | null) => boolean;
+  _dateFilter: (date: matRangeDatepickerRangeValue<D> | D | null) => boolean;
 
   /** The value of the input. */
   @Input()
-  get value(): SatDatepickerRangeValue<D> | D | null {
+  get value(): matRangeDatepickerRangeValue<D> | D | null {
     return this._value;
   }
-  set value(value:  SatDatepickerRangeValue<D> | D | null) {
+  set value(value:  matRangeDatepickerRangeValue<D> | D | null) {
     if (value && value.hasOwnProperty('begin') && value.hasOwnProperty('end')) {
       /** Range mode */
-      const rangeValue = <SatDatepickerRangeValue<D>>value;
+      const rangeValue = <matRangeDatepickerRangeValue<D>>value;
       rangeValue.begin = this._dateAdapter.deserialize(rangeValue.begin);
       rangeValue.end = this._dateAdapter.deserialize(rangeValue.end);
       this._lastValueValid = !rangeValue.begin || !rangeValue.end ||
           this._dateAdapter.isValid(rangeValue.begin) && this._dateAdapter.isValid(rangeValue.end);
       rangeValue.begin = this._getValidDateOrNull(rangeValue.begin);
       rangeValue.end = this._getValidDateOrNull(rangeValue.end);
-      let oldDate = <SatDatepickerRangeValue<D> | null>this.value;
+      let oldDate = <matRangeDatepickerRangeValue<D> | null>this.value;
       this._elementRef.nativeElement.value =
           rangeValue && rangeValue.begin && rangeValue.end
               ? this._dateAdapter.format(rangeValue.begin, this._dateFormats.display.dateInput) +
@@ -147,9 +147,9 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
                 this._dateAdapter.format(rangeValue.end, this._dateFormats.display.dateInput)
               : '';
       if (oldDate == null && rangeValue != null || oldDate != null && rangeValue == null ||
-          !this._dateAdapter.sameDate((<SatDatepickerRangeValue<D>>oldDate).begin,
+          !this._dateAdapter.sameDate((<matRangeDatepickerRangeValue<D>>oldDate).begin,
               rangeValue.begin) ||
-          !this._dateAdapter.sameDate((<SatDatepickerRangeValue<D>>oldDate).end,
+          !this._dateAdapter.sameDate((<matRangeDatepickerRangeValue<D>>oldDate).end,
               rangeValue.end)) {
         if (rangeValue.end && rangeValue.begin &&
             this._dateAdapter
@@ -173,7 +173,7 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
       }
     }
   }
-  private _value: SatDatepickerRangeValue<D> | D | null;
+  private _value: matRangeDatepickerRangeValue<D> | D | null;
 
   /** The minimum valid date. */
   @Input()
@@ -216,15 +216,15 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
   private _disabled: boolean;
 
   /** Emits when a `change` event is fired on this `<input>`. */
-  @Output() readonly dateChange: EventEmitter<SatDatepickerInputEvent<D>> =
-      new EventEmitter<SatDatepickerInputEvent<D>>();
+  @Output() readonly dateChange: EventEmitter<matRangeDatepickerInputEvent<D>> =
+      new EventEmitter<matRangeDatepickerInputEvent<D>>();
 
   /** Emits when an `input` event is fired on this `<input>`. */
-  @Output() readonly dateInput: EventEmitter<SatDatepickerInputEvent<D>> =
-      new EventEmitter<SatDatepickerInputEvent<D>>();
+  @Output() readonly dateInput: EventEmitter<matRangeDatepickerInputEvent<D>> =
+      new EventEmitter<matRangeDatepickerInputEvent<D>>();
 
   /** Emits when the value changes (either due to user input or programmatic change). */
-  _valueChange = new EventEmitter<SatDatepickerRangeValue<D>|D|null>();
+  _valueChange = new EventEmitter<matRangeDatepickerRangeValue<D>|D|null>();
 
   /** Emits when the disabled state has changed */
   _disabledChange = new EventEmitter<boolean>();
@@ -347,12 +347,12 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
   ngAfterContentInit() {
     if (this._datepicker) {
       this._datepickerSubscription =
-          this._datepicker._selectedChanged.subscribe((selected: SatDatepickerRangeValue<D> | D) => {
+          this._datepicker._selectedChanged.subscribe((selected: matRangeDatepickerRangeValue<D> | D) => {
             this.value = selected;
             this._cvaOnChange(selected);
             this._onTouched();
-            this.dateInput.emit(new SatDatepickerInputEvent(this, this._elementRef.nativeElement));
-            this.dateChange.emit(new SatDatepickerInputEvent(this, this._elementRef.nativeElement));
+            this.dateInput.emit(new matRangeDatepickerInputEvent(this, this._elementRef.nativeElement));
+            this.dateChange.emit(new matRangeDatepickerInputEvent(this, this._elementRef.nativeElement));
           });
     }
   }
@@ -391,7 +391,7 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
   }
 
   // Implemented as part of ControlValueAccessor
-  writeValue(value: SatDatepickerRangeValue<D> | D): void {
+  writeValue(value: matRangeDatepickerRangeValue<D> | D): void {
     this.value = value;
   }
 
@@ -418,7 +418,7 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
   }
 
   _onInput(value: string) {
-    let date: SatDatepickerRangeValue<D>|D|null = null;
+    let date: matRangeDatepickerRangeValue<D>|D|null = null;
     if (this._datepicker.rangeMode) {
       const parts = value.split('-');
       if (parts.length > 1) {
@@ -433,7 +433,7 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
           beginDate = this._getValidDateOrNull(beginDate);
           endDate = this._getValidDateOrNull(endDate);
           if (beginDate && endDate) {
-            date = <SatDatepickerRangeValue<D>>{begin: beginDate, end: endDate};
+            date = <matRangeDatepickerRangeValue<D>>{begin: beginDate, end: endDate};
           }
       }
     } else {
@@ -444,11 +444,11 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
     this._value = date;
     this._cvaOnChange(date);
     this._valueChange.emit(date);
-    this.dateInput.emit(new SatDatepickerInputEvent(this, this._elementRef.nativeElement));
+    this.dateInput.emit(new matRangeDatepickerInputEvent(this, this._elementRef.nativeElement));
   }
 
   _onChange() {
-    this.dateChange.emit(new SatDatepickerInputEvent(this, this._elementRef.nativeElement));
+    this.dateChange.emit(new matRangeDatepickerInputEvent(this, this._elementRef.nativeElement));
   }
 
   /** Returns the palette used by the input's form field, if any. */
@@ -467,9 +467,9 @@ export class SatDatepickerInput<D> implements AfterContentInit, ControlValueAcce
   }
 
   /** Formats a value and sets it on the input element. */
-  private _formatValue(value: SatDatepickerRangeValue<D> | D | null) {
+  private _formatValue(value: matRangeDatepickerRangeValue<D> | D | null) {
       if (value && value.hasOwnProperty('begin') && value.hasOwnProperty('end')) {
-          value = value as SatDatepickerRangeValue<D>
+          value = value as matRangeDatepickerRangeValue<D>
           this._elementRef.nativeElement.value =
               value && value.begin && value.end
                   ? this._dateAdapter.format(value.begin, this._dateFormats.display.dateInput) +

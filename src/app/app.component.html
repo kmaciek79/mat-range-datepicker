@@ -1,7 +1,19 @@
+<p>
 <mat-form-field>
-    <input matInput [matDatepicker]="resultPicker">
+    <input matInput
+            placeholder="Choose a date"
+            #resultPickerModel="ngModel"
+            [matRangeDatepicker]="resultPicker"
+            [(ngModel)]="date"
+            (dateInput)="onDateInput($event)"
+            (dateChange)="onDateChange($event)">
     <mat-range-datepicker
-            #resultPicker
-            [rangeMode]="true">
+            #resultPicker [rangeMode]="true">
     </mat-range-datepicker>
+    <mat-range-datepicker-toggle matSuffix [for]="resultPicker"></mat-range-datepicker-toggle>
 </mat-form-field>
+</p>
+<p>Last input: {{lastDateInput}}</p>
+<p>Last change: {{lastDateChange}}</p>
+<p>Last input: {{lastDateInput?.begin}} {{lastDateInput?.end}} </p>
+<p>Last change: {{lastDateChange?.begin}} {{lastDateChange?.end}} </p>

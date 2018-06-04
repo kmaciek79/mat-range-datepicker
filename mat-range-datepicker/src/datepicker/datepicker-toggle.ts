@@ -21,15 +21,15 @@ import {
     ViewEncapsulation,
 } from '@angular/core'
 import {merge, of as observableOf, Subscription} from 'rxjs'
-import {SatDatepicker} from './datepicker'
-import {SatDatepickerIntl} from './datepicker-intl'
+import {matRangeDatepicker} from './datepicker'
+import {matRangeDatepickerIntl} from './datepicker-intl'
 
 
 /** Can be used to override the icon of a `matDatepickerToggle`. */
 @Directive({
     selector: '[matDatepickerToggleIcon]',
 })
-export class SatDatepickerToggleIcon {
+export class matRangeDatepickerToggleIcon {
 }
 
 
@@ -47,18 +47,18 @@ export class SatDatepickerToggleIcon {
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDestroy {
+export class matRangeDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDestroy {
     /** Datepicker instance that the button will toggle. */
-    @Input('for') datepicker: SatDatepicker<D>
+    @Input('for') datepicker: matRangeDatepicker<D>
 
     /** Custom icon set by the consumer. */
-    @ContentChild(SatDatepickerToggleIcon) _customIcon: SatDatepickerToggleIcon
+    @ContentChild(matRangeDatepickerToggleIcon) _customIcon: matRangeDatepickerToggleIcon
 
     private _stateChanges = Subscription.EMPTY
 
     private _disabled: boolean
 
-    constructor(public _intl: SatDatepickerIntl, private _changeDetectorRef: ChangeDetectorRef) {
+    constructor(public _intl: matRangeDatepickerIntl, private _changeDetectorRef: ChangeDetectorRef) {
     }
 
     /** Whether the toggle button is disabled. */

@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
-import {MatRangeDatepickerModule} from "../../mat-range-datepicker/src/datepicker";
+import {MatRangeDatepickerModule, MatRangeNativeDateModule} from "../../mat-range-datepicker/src/public-api";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {
@@ -9,10 +11,10 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
-  MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
+  MatDatepickerModule,
   MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
@@ -45,7 +47,6 @@ const _List = [
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
-  MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
@@ -54,6 +55,7 @@ const _List = [
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatDatepickerModule,
   MatMenuModule,
   MatNativeDateModule,
   MatPaginatorModule,
@@ -80,10 +82,13 @@ const _List = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRangeNativeDateModule,    
+    MatRangeDatepickerModule,
+    BrowserAnimationsModule,
     ..._List,
-    MatRangeDatepickerModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

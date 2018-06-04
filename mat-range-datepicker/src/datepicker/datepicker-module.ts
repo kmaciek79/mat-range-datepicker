@@ -15,10 +15,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {SatCalendar, SatCalendarHeader} from './calendar';
 import {SatCalendarBody} from './calendar-body';
-import {SatDatepicker, SatDatepickerContent} from './datepicker';
-import {SatDatepickerInput} from './datepicker-input';
-import {SatDatepickerIntl} from './datepicker-intl';
-import {SatDatepickerToggle, SatDatepickerToggleIcon} from './datepicker-toggle';
+import {matRangeDatepicker, matRangeDatepickerContent} from './datepicker';
+import {matRangeDatepickerInput} from './datepicker-input';
+import {matRangeDatepickerIntl} from './datepicker-intl';
+import {matRangeDatepickerToggle, matRangeDatepickerToggleIcon} from './datepicker-toggle';
 import {SatMonthView} from './month-view';
 import {SatMultiYearView} from './multi-year-view';
 import {SatYearView} from './year-view';
@@ -36,11 +36,11 @@ import {SatYearView} from './year-view';
     exports: [
         SatCalendar,
         SatCalendarBody,
-        SatDatepicker,
-        SatDatepickerContent,
-        SatDatepickerInput,
-        SatDatepickerToggle,
-        SatDatepickerToggleIcon,
+        matRangeDatepicker,
+        matRangeDatepickerContent,
+        matRangeDatepickerInput,
+        matRangeDatepickerToggle,
+        matRangeDatepickerToggleIcon,
         SatMonthView,
         SatYearView,
         SatMultiYearView,
@@ -49,21 +49,21 @@ import {SatYearView} from './year-view';
     declarations: [
         SatCalendar,
         SatCalendarBody,
-        SatDatepicker,
-        SatDatepickerContent,
-        SatDatepickerInput,
-        SatDatepickerToggle,
-        SatDatepickerToggleIcon,
+        matRangeDatepicker,
+        matRangeDatepickerContent,
+        matRangeDatepickerInput,
+        matRangeDatepickerToggle,
+        matRangeDatepickerToggleIcon,
         SatMonthView,
         SatYearView,
         SatMultiYearView,
         SatCalendarHeader,
     ],
     providers: [
-        SatDatepickerIntl,
+        matRangeDatepickerIntl,
     ],
     entryComponents: [
-        SatDatepickerContent,
+        matRangeDatepickerContent,
         SatCalendarHeader,
     ]
 })

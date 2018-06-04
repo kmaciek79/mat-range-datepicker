@@ -27,12 +27,12 @@ import {
 } from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {createMissingDateImplError} from './datepicker-errors';
-import {SatDatepickerIntl} from './datepicker-intl';
+import {matRangeDatepickerIntl} from './datepicker-intl';
 import {SatMonthView} from './month-view';
 import {SatMultiYearView, yearsPerPage} from './multi-year-view';
 import {SatYearView} from './year-view';
 
-import {SatDatepickerRangeValue} from './datepicker-input';
+import {matRangeDatepickerRangeValue} from './datepicker-input';
 import {DateAdapter} from '../datetime/date-adapter';
 import {MAT_DATE_FORMATS, MatDateFormats} from '../datetime/date-formats';
 
@@ -82,7 +82,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     @Input() rangeMode = false;
 
     /** Emits when new pair of dates selected. */
-    @Output() dateRangesChange = new EventEmitter<SatDatepickerRangeValue<D>>();
+    @Output() dateRangesChange = new EventEmitter<matRangeDatepickerRangeValue<D>>();
 
 
     /** Whenever user already selected start of dates interval. */
@@ -192,7 +192,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    */
   stateChanges = new Subject<void>();
 
-  constructor(_intl: SatDatepickerIntl,
+  constructor(_intl: matRangeDatepickerIntl,
               @Optional() private _dateAdapter: DateAdapter<D>,
               @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
               changeDetectorRef: ChangeDetectorRef) {
@@ -314,7 +314,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SatCalendarHeader<D> {
-  constructor(private _intl: SatDatepickerIntl,
+  constructor(private _intl: matRangeDatepickerIntl,
               @Inject(forwardRef(() => SatCalendar)) public calendar: SatCalendar<D>,
               @Optional() private _dateAdapter: DateAdapter<D>,
               @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
