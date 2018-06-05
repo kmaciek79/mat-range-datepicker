@@ -15,28 +15,6 @@ I created this repository and this package due to it takes a lot of time to cont
 5) Supports input from keyboard
 6) Supports keyboard handling
  
-## Changelog
-## 6.0.1
-Updated to material datepicker 6.0.1
-## 6.0.0
-Styles included! Read below
-## 1.1.7
-Update to angular material 6.0.0 (2018/05/04)
-
-Now package can be compiled for production. Internal styles - soon!
-
-### 2018/04/18
-Datepicker theme supports dark themes. How to use it read below
-### 1.1.0
-Introduce first day of the week depends on locale
-
-### 1.0.7
-Roll back to angular material 5.2 source code
-
-### 1.0
-
-API has been completely changed.
-
 ## It's awesome, but how to use it?
 
 As easy as pie.
@@ -70,9 +48,12 @@ export interface matRangeDatepickerRangeValue<D> {
 
 Licence: MIT
 
-A little note for myself
-```shell
-npm run packagr
-(cd dist ; npm pack)
-yarn add range-0.0.1.tgz 
-```
+# to dev
+npm start
+
+## to deploy 
+yarn build:lib
+cd dist
+npm version patch
+npm pack
+npm publish

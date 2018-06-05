@@ -84,7 +84,7 @@ export const _matRangeDatepickerContentMixinBase = mixinColor(matRangeDatepicker
   moduleId: module.id,
   selector: 'mat-range-datepicker-content',
   templateUrl: 'datepicker-content.html',
-  styleUrls: ['datepicker-content.css'],
+  styleUrls: ['datepicker-content.scss'],
   host: {
     'class': 'mat-datepicker-content',
     '[@transformPanel]': '"enter"',
