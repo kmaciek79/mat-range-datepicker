@@ -1,0 +1,54 @@
+<div class="from-date-sec">
+  <sat-calendar cdkTrapFocus
+    [id]="id"
+    [ngClass]="ngClass"
+    [startAt]="startAt"
+    [startView]="startView"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [dateFilter]="dateFilter"
+    [beginDate]="beginDate"
+    [endDate]="endDate"
+    [rangeMode]="rangeMode"
+    [selected]="selected"
+    (selectedChange)="selectedChange.emit($event)"
+    (dateRangesChange)="dateRangesChange.emit($event)"
+    (yearSelected)="yearSelected.emit($event)"
+    (monthSelected)="monthSelected.emit($event)"
+    (_userSelection)="_userSelection.emit()">
+  </sat-calendar>
+</div>
+<div class="end-date-sec">
+  <sat-calendar cdkTrapFocus
+    [id]="id"
+    [ngClass]="ngClass"
+    [startAt]="startAt"
+    [startView]="startView"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [dateFilter]="dateFilter"
+    [beginDate]="beginDate"
+    [endDate]="endDate"
+    [rangeMode]="rangeMode"
+    [selected]="selected"
+    (selectedChange)="selectedChange.emit($event)"
+    (dateRangesChange)="dateRangesChange.emit($event)"
+    (yearSelected)="yearSelected.emit($event)"
+    (monthSelected)="monthSelected.emit($event)"
+    [nextMonth]="true"
+    (_userSelection)="_userSelection.emit()">
+  </sat-calendar>
+</div>
+<div class="quick-select-sec">
+  <span class="select-title">Quick Select</span>
+  <ul>
+    <li><button mat-button>Quater 1</button></li>
+    <li><button mat-button>Quater 2</button></li>
+    <li><button mat-button>Quater 3</button></li>
+    <li><button mat-button>Quater 4</button></li>
+  </ul>
+</div>
+<div class="calendar-button-sec">
+  <button mat-button color="primary">Cancel</button>
+  <button mat-raised-button color="primary">Apply</button>
+</div>

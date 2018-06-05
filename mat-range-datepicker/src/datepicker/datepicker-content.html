@@ -1,4 +1,4 @@
-<sat-calendar cdkTrapFocus
+<range-calendar cdkTrapFocus
               [id]="datepicker.id"
               [ngClass]="datepicker.panelClass"
               [startAt]="datepicker.startAt"
@@ -15,4 +15,4 @@
               (yearSelected)="datepicker._selectYear($event)"
               (monthSelected)="datepicker._selectMonth($event)"
               (_userSelection)="datepicker.close()">
-</sat-calendar>
+</range-calendar>

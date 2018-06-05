@@ -14,6 +14,7 @@ import {NgModule} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {SatCalendar, SatCalendarHeader} from './calendar';
+import {RangeCalendar} from './range-calendar';
 import {SatCalendarBody} from './calendar-body';
 import {matRangeDatepicker, matRangeDatepickerContent} from './datepicker';
 import {matRangeDatepickerInput} from './datepicker-input';
@@ -45,10 +46,12 @@ import {SatYearView} from './year-view';
         SatYearView,
         SatMultiYearView,
         SatCalendarHeader,
+        RangeCalendar,
     ],
     declarations: [
         SatCalendar,
         SatCalendarBody,
+        RangeCalendar,
         matRangeDatepicker,
         matRangeDatepickerContent,
         matRangeDatepickerInput,

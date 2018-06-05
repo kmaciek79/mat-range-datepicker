@@ -168,13 +168,24 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /** Reference to the current multi-year view component. */
   @ViewChild(SatMultiYearView) multiYearView: SatMultiYearView<D>;
 
+  @Input() nextMonth: boolean;
+
   /**
    * The current active date. This determines which time period is shown and which date is
    * highlighted when using keyboard navigation.
    */
+
+
+  @Input()
   get activeDate(): D { return this._clampedActiveDate; }
   set activeDate(value: D) {
-    this._clampedActiveDate = this._dateAdapter.clampDate(value, this.minDate, this.maxDate);
+    if (this.nextMonth) {
+      this._clampedActiveDate = this._dateAdapter.clampDate(
+        this._dateAdapter.addCalendarMonths(value, 1)
+        , this.minDate, this.maxDate);
+    } else {
+      this._clampedActiveDate = this._dateAdapter.clampDate(value, this.minDate, this.maxDate);
+    }
     this.stateChanges.next();
   }
   private _clampedActiveDate: D;
@@ -253,18 +264,19 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /** Handles date selection in the month view. */
   _dateSelected(date: D): void {
     if (this.rangeMode) {
-        if (!this._beginDateSelected) {
-          this._beginDateSelected = true;
-          this.beginDate = date;
-          this.endDate = date;
+      console.log('calendar date change', date)
+      if (!this._beginDateSelected) {
+        this._beginDateSelected = true;
+        this.beginDate = date;
+        this.endDate = date;
+      } else {
+        this._beginDateSelected = false;
+        if (this._dateAdapter.compareDate(<D>this.beginDate, date) <= 0) {
+          this.dateRangesChange.emit({begin: <D>this.beginDate, end: date});
         } else {
-          this._beginDateSelected = false;
-          if (this._dateAdapter.compareDate(<D>this.beginDate, date) <= 0) {
-            this.dateRangesChange.emit({begin: <D>this.beginDate, end: date});
-          } else {
-            this.dateRangesChange.emit({begin: date, end: <D>this.beginDate});
-          }
+          this.dateRangesChange.emit({begin: date, end: <D>this.beginDate});
         }
+      }
     } else if (!this._dateAdapter.sameDate(date, this.selected)) {
       this.selectedChange.emit(date);
     }

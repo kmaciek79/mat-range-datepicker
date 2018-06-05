@@ -45,6 +45,7 @@ import {CanColor, mixinColor, ThemePalette} from '@angular/material/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {merge, Subject, Subscription} from 'rxjs';
 import {SatCalendar} from './calendar';
+import {RangeCalendar} from './range-calendar';
 import {matDatepickerAnimations} from './datepicker-animations';
 import {createMissingDateImplError} from './datepicker-errors';
 import {matRangeDatepickerInput, matRangeDatepickerRangeValue} from './datepicker-input';
@@ -107,7 +108,7 @@ export class matRangeDatepickerContent<D> extends _matRangeDatepickerContentMixi
   private _positionChange: Subscription|null;
 
   /** Reference to the internal calendar component. */
-  @ViewChild(SatCalendar) _calendar: SatCalendar<D>;
+  @ViewChild(RangeCalendar) _calendar: RangeCalendar<D>;
 
   /** Reference to the datepicker that created the overlay. */
   datepicker: matRangeDatepicker<D>;
@@ -143,7 +144,7 @@ export class matRangeDatepickerContent<D> extends _matRangeDatepickerContentMixi
   }
 
   ngAfterViewInit() {
-    this._calendar.focusActiveCell();
+    // this._calendar.focusActiveCell();
   }
 
   ngOnDestroy() {
@@ -365,6 +366,8 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Selects the given date */
   _select(date: D): void {
+    console.log('date change',date)
+    
     let oldValue = this._selected;
     this._selected = date;
     if (!this._dateAdapter.sameDate(oldValue, this._selected)) {
@@ -375,6 +378,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Selects the given date range */
   _selectRange(dates: matRangeDatepickerRangeValue<D>): void {
+    console.log('range change', dates)
     if (!this._dateAdapter.sameDate(dates.begin, this.beginDate) ||
       !this._dateAdapter.sameDate(dates.end, this.endDate)) {
       this._selectedChanged.next(dates);
