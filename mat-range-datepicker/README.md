@@ -2,15 +2,11 @@
 Material datepicker with range support
 ## What is this?
 
-This is a based on Material source code (March 22, 2018) implementation of Material Datepicker for Angular.
-I created this repository and this package due to it takes a lot of time to contribute to material2 repository.
 [Issue in material2 repo.](https://github.com/angular/material2/issues/4763)
 ![Material date range picker](screenshot.png)
 
+## how to use it?
 
-## It's awesome, but how to use it?
-
-As easy as pie.
 Installation: `yarn add mat-range-datepicker` or `npm install mat-range-datepicker`
 Import `MatRangeDatepickerModule`, `MatRangeNativeDateModule` and `MatDatepickerModule`
 ```angular2html
