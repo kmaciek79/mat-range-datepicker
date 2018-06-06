@@ -82,7 +82,8 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     @Input() rangeMode = false;
 
     /** Emits when new pair of dates selected. */
-    @Output() dateRangesChange = new EventEmitter<matRangeDatepickerRangeValue<D>>();
+    // @Output() dateRangesChange = new EventEmitter<matRangeDatepickerRangeValue<D>>();
+    @Output() dateSelected = new EventEmitter<matRangeDatepickerRangeValue<D>>();
 
 
     /** Whenever user already selected start of dates interval. */
@@ -179,13 +180,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   @Input()
   get activeDate(): D { return this._clampedActiveDate; }
   set activeDate(value: D) {
-    if (this.nextMonth) {
-      this._clampedActiveDate = this._dateAdapter.clampDate(
-        this._dateAdapter.addCalendarMonths(value, 1)
-        , this.minDate, this.maxDate);
-    } else {
-      this._clampedActiveDate = this._dateAdapter.clampDate(value, this.minDate, this.maxDate);
-    }
+    this._clampedActiveDate = this._dateAdapter.clampDate(value, this.minDate, this.maxDate);
     this.stateChanges.next();
   }
   private _clampedActiveDate: D;
@@ -224,11 +219,28 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   ngAfterContentInit() {
     this._calendarHeaderPortal = new ComponentPortal(this.headerComponent || SatCalendarHeader);
-
-    this.activeDate = this.startAt || this._dateAdapter.today();
-
+    this._initStartEnd();
     // Assign to the private property since we don't want to move focus on init.
     this._currentView = this.startView;
+  }
+
+  _initStartEnd() {
+    const _today = this._dateAdapter.today();
+    const _end = this.endDate || _today
+    const _start = this.beginDate || _today
+    this.activeDate = (
+      (!this.nextMonth)
+      ? 
+      _start
+      : 
+      (
+        this._dateAdapter.getMonth(_end) === this._dateAdapter.getMonth(_start)
+        ?
+        this._dateAdapter.addCalendarMonths(_end, 1)
+        :
+        _end
+      )
+    );
   }
 
   ngAfterViewChecked() {
@@ -253,7 +265,11 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
         view._init();
       }
     }
-
+    const changeDate = changes.beginDate || changes.endDate;
+    if (changeDate) {
+      this._initStartEnd();
+    }
+    
     this.stateChanges.next();
   }
 
@@ -262,25 +278,25 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
 
   /** Handles date selection in the month view. */
-  _dateSelected(date: D): void {
-    if (this.rangeMode) {
-      console.log('calendar date change', date)
-      if (!this._beginDateSelected) {
-        this._beginDateSelected = true;
-        this.beginDate = date;
-        this.endDate = date;
-      } else {
-        this._beginDateSelected = false;
-        if (this._dateAdapter.compareDate(<D>this.beginDate, date) <= 0) {
-          this.dateRangesChange.emit({begin: <D>this.beginDate, end: date});
-        } else {
-          this.dateRangesChange.emit({begin: date, end: <D>this.beginDate});
-        }
-      }
-    } else if (!this._dateAdapter.sameDate(date, this.selected)) {
-      this.selectedChange.emit(date);
-    }
-  }
+  // _dateSelected(date: D): void {
+  //   if (this.rangeMode) {
+  //     console.log('calendar date change', date)
+  //     if (!this._beginDateSelected) {
+  //       this._beginDateSelected = true;
+  //       this.beginDate = date;
+  //       this.endDate = date;
+  //     } else {
+  //       this._beginDateSelected = false;
+  //       if (this._dateAdapter.compareDate(<D>this.beginDate, date) <= 0) {
+  //         this.dateRangesChange.emit({begin: <D>this.beginDate, end: date});
+  //       } else {
+  //         this.dateRangesChange.emit({begin: date, end: <D>this.beginDate});
+  //       }
+  //     }
+  //   } else if (!this._dateAdapter.sameDate(date, this.selected)) {
+  //     this.selectedChange.emit(date);
+  //   }
+  // }
 
   /** Handles year selection in the multiyear view. */
   _yearSelectedInMultiYearView(normalizedYear: D) {
@@ -293,7 +309,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
 
   _userSelected(): void {
-    this._userSelection.emit();
+    // this._userSelection.emit();
   }
 
   /** Handles year/month selection in the multi-year/year views. */

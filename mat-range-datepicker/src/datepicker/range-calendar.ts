@@ -77,4 +77,74 @@ export class RangeCalendar<D> {
   @Output() yearSelected: any = new EventEmitter();
   @Output() monthSelected: any = new EventEmitter();
   @Output() _userSelection: any = new EventEmitter();
+  /** Whenever user already selected start of dates interval. */
+  private _beginDateSelected = false;
+
+  constructor(_intl: matRangeDatepickerIntl,
+    @Optional() private _dateAdapter: DateAdapter<D>,
+    @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats) {
+
+    if (!this._dateAdapter) {
+    throw createMissingDateImplError('DateAdapter');
+    }
+
+    if (!this._dateFormats) {
+    throw createMissingDateImplError('MAT_DATE_FORMATS');
+    }
+  }
+
+  _dateSelected(date: D): void {
+    if (this.rangeMode) {
+      if (!this._beginDateSelected) {
+        this._beginDateSelected = true;
+        this.beginDate = date;
+        this.endDate = date;
+      } else {
+        this._beginDateSelected = false;
+        if (this._dateAdapter.compareDate(<D>this.beginDate, date) <= 0) {
+          this.dateRangesChange.emit({begin: <D>this.beginDate, end: date});
+        } else {
+          this.dateRangesChange.emit({begin: date, end: <D>this.beginDate});
+        }
+      }
+    } else if (!this._dateAdapter.sameDate(date, this.selected)) {
+      this.selectedChange.emit(date);
+    }
+  }
+
+  _getQuarterDates(quarter: number) {
+    const _year = this._dateAdapter.getYear(this._dateAdapter.today());
+    const begin = this._dateAdapter.createDate(_year, (quarter - 1) * 3 , 1);
+    const end = (
+      quarter === 4
+      ?
+      this._dateAdapter.createDate(_year, 11, 30)
+      :
+      this._dateAdapter.addCalendarDays(
+        this._dateAdapter.createDate(_year, quarter * 3, 1),
+        -1
+      )
+    );
+    return ({begin, end})
+  }
+
+  selectQuater(quarter: number) {
+    this.dateRangesChange.emit(this._getQuarterDates(quarter));
+  }
+
+  checkQuarterSelected(quarter: number) {
+    const { begin, end } = this._getQuarterDates(quarter);
+    return (
+      this._dateAdapter.sameDate(begin, this.beginDate)
+      &&
+      this._dateAdapter.sameDate(end, this.endDate)
+    );
+  }
+
+  onCancel() {
+    this._userSelection.emit()
+  }
+  onApply() {
+    this._userSelection.emit({apply: true})
+  }
 }

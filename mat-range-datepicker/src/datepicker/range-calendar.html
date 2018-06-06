@@ -9,13 +9,13 @@
     [dateFilter]="dateFilter"
     [beginDate]="beginDate"
     [endDate]="endDate"
-    [rangeMode]="rangeMode"
+    [rangeMode]="rangeMode"           
     [selected]="selected"
     (selectedChange)="selectedChange.emit($event)"
-    (dateRangesChange)="dateRangesChange.emit($event)"
+    (dateSelected)="_dateSelected($event)"
     (yearSelected)="yearSelected.emit($event)"
     (monthSelected)="monthSelected.emit($event)"
-    (_userSelection)="_userSelection.emit()">
+    >
   </sat-calendar>
 </div>
 <div class="end-date-sec">
@@ -32,23 +32,23 @@
     [rangeMode]="rangeMode"
     [selected]="selected"
     (selectedChange)="selectedChange.emit($event)"
-    (dateRangesChange)="dateRangesChange.emit($event)"
+    (dateSelected)="_dateSelected($event)"
     (yearSelected)="yearSelected.emit($event)"
     (monthSelected)="monthSelected.emit($event)"
     [nextMonth]="true"
-    (_userSelection)="_userSelection.emit()">
+    >
   </sat-calendar>
 </div>
 <div class="quick-select-sec">
   <span class="select-title">Quick Select</span>
   <ul>
-    <li><button mat-button>Quater 1</button></li>
-    <li><button mat-button>Quater 2</button></li>
-    <li><button mat-button>Quater 3</button></li>
-    <li><button mat-button>Quater 4</button></li>
+    <li><button mat-button (click)="selectQuater(1)" [class.active]="checkQuarterSelected(1)">Quarter 1</button></li>
+    <li><button mat-button (click)="selectQuater(2)" [class.active]="checkQuarterSelected(2)">Quarter 2</button></li>
+    <li><button mat-button (click)="selectQuater(3)" [class.active]="checkQuarterSelected(3)">Quarter 3</button></li>
+    <li><button mat-button (click)="selectQuater(4)" [class.active]="checkQuarterSelected(4)">Quarter 4</button></li>
   </ul>
 </div>
 <div class="calendar-button-sec">
-  <button mat-button color="primary">Cancel</button>
-  <button mat-raised-button color="primary">Apply</button>
+  <button mat-button color="primary" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onApply()">Apply</button>
 </div>

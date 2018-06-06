@@ -194,6 +194,9 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
   }
   _beginDate: D | null;
 
+  _initBeginDate: D | null;
+  
+
   /** End of dates interval. */
   @Input()
   get endDate(): D | null { return this._endDate; }
@@ -202,9 +205,10 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
     this._endDate = this._getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   _endDate: D | null;
+  _initEndDate: D | null;
 
     /** An input indicating the type of the custom header component for the calendar, if set. */
-    @Input() calendarHeaderComponent: ComponentType<any>;
+  @Input() calendarHeaderComponent: ComponentType<any>;
 
   /** The date to open the calendar to initially. */
   @Input()
@@ -353,6 +357,11 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
     }
   }
 
+  ngAfterContentInit() {
+    this._initBeginDate = this.beginDate;
+    this._initEndDate = this.endDate;
+  }
+
   ngOnDestroy() {
     this.close();
     this._inputSubscription.unsubscribe();
@@ -366,8 +375,6 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Selects the given date */
   _select(date: D): void {
-    console.log('date change',date)
-    
     let oldValue = this._selected;
     this._selected = date;
     if (!this._dateAdapter.sameDate(oldValue, this._selected)) {
@@ -378,7 +385,6 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Selects the given date range */
   _selectRange(dates: matRangeDatepickerRangeValue<D>): void {
-    console.log('range change', dates)
     if (!this._dateAdapter.sameDate(dates.begin, this.beginDate) ||
       !this._dateAdapter.sameDate(dates.end, this.endDate)) {
       this._selectedChanged.next(dates);
@@ -429,6 +435,8 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Open the calendar. */
   open(): void {
+    this._initBeginDate = this.beginDate;
+    this._initEndDate = this.endDate;
     if (this._opened || this.disabled) {
       return;
     }
@@ -445,7 +453,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
   }
 
   /** Close the calendar. */
-  close(): void {
+  close(options?: any): void {
     if (!this._opened) {
       return;
     }
@@ -458,6 +466,15 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
     }
     if (this._calendarPortal && this._calendarPortal.isAttached) {
       this._calendarPortal.detach();
+    }
+    //restore if not applied
+    if (!options || !options.apply) {
+      this.beginDate = this._initBeginDate;
+      this.endDate = this._initEndDate;
+      this._selectedChanged.next({
+        begin: this.beginDate,
+        end: this.endDate,
+      });
     }
 
     const completeClose = () => {
@@ -536,7 +553,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
     merge(
       this._popupRef.backdropClick(),
-      this._popupRef.detachments(),
+      // this._popupRef.detachments(),
       this._popupRef.keydownEvents().pipe(filter(event => {
         // Closing on alt + up is only valid when there's an input associated with the datepicker.
         return event.keyCode === ESCAPE ||
