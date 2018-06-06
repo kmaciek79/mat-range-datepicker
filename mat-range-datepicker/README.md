@@ -6,36 +6,7 @@ This is a based on Material source code (March 22, 2018) implementation of Mater
 I created this repository and this package due to it takes a lot of time to contribute to material2 repository.
 [Issue in material2 repo.](https://github.com/angular/material2/issues/4763)
 ![Material date range picker](screenshot.png)
-## [DEMO](https://stackblitz.com/edit/angular-b23dak)
-## Advantages
-1) Dates range selecting in datepicker 
-2) Have special attribute to turn on range mode on datepicker
-3) Value managing as easy as it in `MatDatepicker`
-4) *You can use all attributes: min, max, formControl and others*
-5) Supports input from keyboard
-6) Supports keyboard handling
- 
-## Changelog
-## 6.0.1
-Updated to material datepicker 6.0.1
-## 6.0.0
-Styles included! Read below
-## 1.1.7
-Update to angular material 6.0.0 (2018/05/04)
 
-Now package can be compiled for production. Internal styles - soon!
-
-### 2018/04/18
-Datepicker theme supports dark themes. How to use it read below
-### 1.1.0
-Introduce first day of the week depends on locale
-
-### 1.0.7
-Roll back to angular material 5.2 source code
-
-### 1.0
-
-API has been completely changed.
 
 ## It's awesome, but how to use it?
 
@@ -70,9 +41,9 @@ export interface matRangeDatepickerRangeValue<D> {
 
 Licence: MIT
 
-A little note for myself
+Publish your own package
 ```shell
-npm run packagr
+yarn build:lib
 (cd dist ; npm pack)
-yarn add range-0.0.1.tgz 
+npm publish
 ```
