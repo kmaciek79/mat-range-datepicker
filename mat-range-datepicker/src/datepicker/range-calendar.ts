@@ -118,7 +118,10 @@ export class RangeCalendar<D> {
     const end = (
       quarter === 4
       ?
-      this._dateAdapter.createDate(_year, 11, 30)
+      this._dateAdapter.addCalendarDays(
+        this._dateAdapter.createDate(_year + 1, 0, 1), 
+        -1
+      )
       :
       this._dateAdapter.addCalendarDays(
         this._dateAdapter.createDate(_year, quarter * 3, 1),
