@@ -82,7 +82,7 @@ export const _matRangeDatepickerContentMixinBase = mixinColor(matRangeDatepicker
  * @docs-private
  */
 @Component({
-  moduleId: module.id,
+moduleId: module.id,
   selector: 'mat-range-datepicker-content',
   templateUrl: 'datepicker-content.html',
   styleUrls: ['datepicker-content.scss'],
