@@ -454,6 +454,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Close the calendar. */
   close(options?: any): void {
+    console.log('MKDEV');
     if (!this._opened) {
       return;
     }
