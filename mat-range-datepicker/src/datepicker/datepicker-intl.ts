@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
 
 
 /** Datepicker data that requires internationalization. */
-@Injectable({providedIn: 'root'})
+//@Injectable({providedIn: 'root'})
 export class matRangeDatepickerIntl {
   /**
    * Stream that emits whenever the labels here are changed. Use this to notify

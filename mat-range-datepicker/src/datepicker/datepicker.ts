@@ -454,7 +454,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Close the calendar. */
   close(options?: any): void {
-    console.log('MKDEV');
+     
     if (!this._opened) {
       return;
     }
@@ -469,9 +469,18 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
       this._calendarPortal.detach();
     }
     //restore if not applied
-    if (!options || !options.apply) {
-      this.beginDate = this._initBeginDate;
-      this.endDate = this._initEndDate;
+    console.log(options);
+    if (!!options && options.apply) {
+      //this.beginDate = this._initBeginDate;
+      //this.endDate = this._initEndDate;
+      this._selectedChanged.next({
+        begin: this.beginDate,
+        end: this.endDate,
+      });
+    }
+    else {
+      this.beginDate = null;
+      this.endDate = null;
       this._selectedChanged.next({
         begin: this.beginDate,
         end: this.endDate,

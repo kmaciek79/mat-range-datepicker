@@ -23,6 +23,7 @@ import {matRangeDatepickerToggle, matRangeDatepickerToggleIcon} from './datepick
 import {SatMonthView} from './month-view';
 import {SatMultiYearView} from './multi-year-view';
 import {SatYearView} from './year-view';
+import { MAT_DATE_LOCALE } from '../datetime';
 
 
 @NgModule({
@@ -63,8 +64,10 @@ import {SatYearView} from './year-view';
         SatCalendarHeader,
     ],
     providers: [
-        matRangeDatepickerIntl,
+        matRangeDatepickerIntl
+        //{provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
     ],
+    
     entryComponents: [
         matRangeDatepickerContent,
         SatCalendarHeader,
