@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mat-range-datepicker": {
+    "dev": {
       "root": "",
-      "projectType": "library",
+      "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -108,7 +108,7 @@
     },
     "dev-e2e": {
       "root": "",
-      "projectType": "library",
+      "projectType": "application",
       "cli": {},
       "schematics": {},
       "architect": {
@@ -132,7 +132,7 @@
     },
     "packages": {
       "root": "",
-      "projectType": "library",
+      "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -235,7 +235,7 @@
     },
     "packages-e2e": {
       "root": "",
-      "projectType": "library",
+      "projectType": "application",
       "cli": {},
       "schematics": {},
       "architect": {
@@ -259,7 +259,7 @@
     }
   },
   "cli": {},
-  "defaultProject": "mat-range-datepicker",
+  "defaultProject": "dev-e2e",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

@@ -91,6 +91,7 @@ export class RangeCalendar<D> {
     if (!this._dateFormats) {
     throw createMissingDateImplError('MAT_DATE_FORMATS');
     }
+    
   }
 
   _dateSelected(date: D): void {

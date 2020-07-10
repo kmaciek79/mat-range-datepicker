@@ -171,6 +171,9 @@ export class matRangeDatepickerContent<D> extends _matRangeDatepickerContentMixi
 export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Whenever datepicker is for selecting range of dates. */
+
+  @Input() clearOnClose: boolean = false;  
+
   @Input()
   get rangeMode(): boolean {
     return this._rangeMode;
@@ -437,6 +440,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
   open(): void {
     this._initBeginDate = this.beginDate;
     this._initEndDate = this.endDate;
+
     if (this._opened || this.disabled) {
       return;
     }
@@ -454,7 +458,7 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
 
   /** Close the calendar. */
   close(options?: any): void {
-     
+      
     if (!this._opened) {
       return;
     }
@@ -469,24 +473,23 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
       this._calendarPortal.detach();
     }
     //restore if not applied
-    console.log(options);
+ 
+
     if (!!options && options.apply) {
-
-      this.beginDate = this._initBeginDate;
-      this.endDate = this._initEndDate;
-
       this._selectedChanged.next({
         begin: this.beginDate,
         end: this.endDate,
       });
     }
     else {
-      this.beginDate = null;
-      this.endDate = null;
-      this._selectedChanged.next({
-        begin: this.beginDate,
-        end: this.endDate,
-      });
+        if(this.clearOnClose) {
+            this.beginDate = null;
+            this.endDate = null;
+            this._selectedChanged.next({
+                begin: this.beginDate,
+                end: this.endDate,
+            });
+        }
     }
 
     const completeClose = () => {
