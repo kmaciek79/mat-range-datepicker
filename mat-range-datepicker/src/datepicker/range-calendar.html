@@ -40,15 +40,18 @@
   </sat-calendar>
 </div>
 <div class="quick-select-sec">
-  <span class="select-title">Quick Select</span>
-  <ul>
-    <li><button mat-button (click)="selectQuater(1)" [class.active]="checkQuarterSelected(1)">Quarter 1</button></li>
-    <li><button mat-button (click)="selectQuater(2)" [class.active]="checkQuarterSelected(2)">Quarter 2</button></li>
-    <li><button mat-button (click)="selectQuater(3)" [class.active]="checkQuarterSelected(3)">Quarter 3</button></li>
-    <li><button mat-button (click)="selectQuater(4)" [class.active]="checkQuarterSelected(4)">Quarter 4</button></li>
-  </ul>
+ <button  (click)="selectYear($event)" [attr.year]="year" [class.selected]="activeYear == year" *ngFor="let year of _years; let i=index">{{year}}</button> 
 </div>
+<div class="quick-select-sec"> 
+     <button (click)="selectQuater(1)" [class.selected]="checkQuarterSelected(1)">Q 1</button> 
+     <button (click)="selectQuater(2)" [class.selected]="checkQuarterSelected(2)">Q 2</button> 
+     <button (click)="selectQuater(3)" [class.selected]="checkQuarterSelected(3)">Q 3</button> 
+     <button (click)="selectQuater(4)" [class.selected]="checkQuarterSelected(4)">Q 4</button> 
+ </div>
+ <div class="quick-select-sec"> 
+     <button  (click)="selectMonth($event)" [attr.month]="i" [class.selected]="activeMonth == i" *ngFor="let month of _months; let i=index">{{month}}</button> 
+  </div>
 <div class="calendar-button-sec">
   <button mat-button color="primary" (click)="onCancel()">Wyczyść</button>
   <button mat-raised-button color="primary" (click)="onApply()">Zastosuj</button>
-</div>
+</div> 

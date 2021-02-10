@@ -39,6 +39,8 @@ export const yearsPerPage = 24;
 export const yearsPerRow = 4;
 
 
+
+
 /**
  * An internal component used to display a year selector in the datepicker.
  * @docs-private
@@ -141,7 +143,11 @@ export class SatMultiYearView<D> implements AfterContentInit {
       }
     }
     this._changeDetectorRef.markForCheck();
+
+    
   }
+
+  
 
   /** Handles when a new year is selected. */
   _yearSelected(year: number) {

@@ -1,0 +1,31 @@
+{
+  "name": "@kmaciek79/mat-range-datepicker",
+  "version": "1.0.18",
+  "keywords": [
+    "angular",
+    "material",
+    "datepicker",
+    "range datepicker"
+  ],
+  "author": "sugarball <jayden@interactivelabs.co>",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "@angular/core": ">=6.0.0",
+    "@angular/common": ">=6.0.0",
+    "@angular/material": ">=6.0.0"
+  },
+  "main": "bundles/mat-range-datepicker.umd.js",
+  "module": "fesm5/mat-range-datepicker.js",
+  "es2015": "fesm2015/mat-range-datepicker.js",
+  "esm5": "esm5/mat-range-datepicker.js",
+  "esm2015": "esm2015/mat-range-datepicker.js",
+  "fesm5": "fesm5/mat-range-datepicker.js",
+  "fesm2015": "fesm2015/mat-range-datepicker.js",
+  "typings": "mat-range-datepicker.d.ts",
+  "metadata": "mat-range-datepicker.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

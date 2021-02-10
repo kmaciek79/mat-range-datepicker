@@ -55,7 +55,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "dev:build"
+            "browserTarget": "mat-range-datepicker:build"
           },
           "configurations": {
             "production": {
