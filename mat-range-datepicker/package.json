@@ -1,9 +1,9 @@
 {
   "name": "mat-range-datepicker",
-  "version": "0.21.0",
+  "version": "1.2.0",
   "description": "test purpose",
   "repository": "https://github.com/kmaciek79/mat-range-datepicker.git",
-  "author": "sugarball&&Maciek",
+  "author": "Maciek",
   "keywords": [
     "angular",
     "material",
@@ -27,5 +27,8 @@
  
   "whitelistedNonPeerDependencies": [
     "@angular/cdk"
-  ]
+  ],
+    "publishConfig": {
+         "registry": "https://npm.pkg.github.com/kmaciek79"
+      }
 }
