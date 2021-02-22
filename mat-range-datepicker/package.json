@@ -1,14 +1,15 @@
 {
   "name": "mat-range-datepicker",
-  "version": "0.2.0",
-  "repository": "https://github.com/Sugarball/mat-range-datepicker",
+  "version": "0.21.0",
+  "description": "test purpose",
+  "repository": "https://github.com/kmaciek79/mat-range-datepicker.git",
+  "author": "sugarball&&Maciek",
   "keywords": [
     "angular",
     "material",
     "datepicker",
     "range datepicker"
   ],
-  "author": "sugarball <jayden@interactivelabs.co>",
   "license": "MIT",
   "private": false,
   "peerDependencies": {
@@ -22,5 +23,9 @@
       "entryFile": "src/public-api.ts"
     },
     "dest": "../dist"
-  }
+  },
+ 
+  "whitelistedNonPeerDependencies": [
+    "@angular/cdk"
+  ]
 }

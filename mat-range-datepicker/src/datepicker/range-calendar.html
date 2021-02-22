@@ -1,57 +1,45 @@
 <div class="from-date-sec">
-  <sat-calendar cdkTrapFocus
-    [id]="id"
-    [ngClass]="ngClass"
-    [startAt]="startAt"
-    [startView]="startView"
-    [minDate]="minDate"
-    [maxDate]="maxDate"
-    [dateFilter]="dateFilter"
-    [beginDate]="beginDate"
-    [endDate]="endDate"
-    [rangeMode]="rangeMode"           
-    [selected]="selected"
-    (selectedChange)="selectedChange.emit($event)"
-    (dateSelected)="_dateSelected($event)"
-    (yearSelected)="yearSelected.emit($event)"
-    (monthSelected)="monthSelected.emit($event)"
-    >
-  </sat-calendar>
+    <sat-calendar cdkTrapFocus [id]="id" [ngClass]="ngClass" [startAt]="startAt" [startView]="startView"
+        [minDate]="minDate" [maxDate]="maxDate" [dateFilter]="dateFilter" [beginDate]="beginDate" [endDate]="endDate"
+        [rangeMode]="rangeMode" [selected]="selected" (selectedChange)="selectedChange.emit($event)"
+        (dateSelected)="_dateSelected($event)" (yearSelected)="yearSelected.emit($event)"
+        (monthSelected)="monthSelected.emit($event)">
+    </sat-calendar>
 </div>
 <div class="end-date-sec">
-  <sat-calendar cdkTrapFocus
-    [id]="id"
-    [ngClass]="ngClass"
-    [startAt]="startAt"
-    [startView]="startView"
-    [minDate]="minDate"
-    [maxDate]="maxDate"
-    [dateFilter]="dateFilter"
-    [beginDate]="beginDate"
-    [endDate]="endDate"
-    [rangeMode]="rangeMode"
-    [selected]="selected"
-    (selectedChange)="selectedChange.emit($event)"
-    (dateSelected)="_dateSelected($event)"
-    (yearSelected)="yearSelected.emit($event)"
-    (monthSelected)="monthSelected.emit($event)"
-    [nextMonth]="true"
-    >
-  </sat-calendar>
+    <sat-calendar cdkTrapFocus [id]="id" [ngClass]="ngClass" [startAt]="startAt" [startView]="startView"
+        [minDate]="minDate" [maxDate]="maxDate" [dateFilter]="dateFilter" [beginDate]="beginDate" [endDate]="endDate"
+        [rangeMode]="rangeMode" [selected]="selected" (selectedChange)="selectedChange.emit($event)"
+        (dateSelected)="_dateSelected($event)" (yearSelected)="yearSelected.emit($event)"
+        (monthSelected)="monthSelected.emit($event)" [nextMonth]="true">
+    </sat-calendar>
 </div>
-<div class="quick-select-sec">
- <button  (click)="selectYear($event)" [attr.year]="year" [class.selected]="activeYear == year" *ngFor="let year of _years; let i=index">{{year}}</button> 
+<div [class.hide]="!showQuartersAndMonths">
+    <div class="quick-select-sec">
+        <select (change)="selectYearB($event)" id="years">
+            <option [attr.year]="year" [selected]="activeYear == year" *ngFor="let year of _years; let i=index">{{year}}
+            </option>
+        </select>
+        <!-- <button  (click)="selectYear($event)" [attr.year]="year" [class.selected]="activeYear == year" *ngFor="let year of _years; let i=index">{{year}}</button>  -->
+    </div>
+    <div class="quick-select-sec">
+        <button (click)="selectQuater(1)" [class.selected]="activeQuarter == 1 || _selectedQuarters.indexOf(1) > -1">Q
+            1</button>
+        <button (click)="selectQuater(2)" [class.selected]="activeQuarter == 2 || _selectedQuarters.indexOf(2) > -1">Q
+            2</button>
+        <button (click)="selectQuater(3)" [class.selected]="activeQuarter == 3 || _selectedQuarters.indexOf(3) > -1">Q
+            3</button>
+        <button (click)="selectQuater(4)" [class.selected]="activeQuarter == 4 || _selectedQuarters.indexOf(4) > -1">Q
+            4</button>
+    </div>
+    <div class="quick-select-sec">
+        <button (click)="selectMonth($event)" [attr.month]="i"
+            [class.selected]="activeMonth == i || _selectedMonths.indexOf(i) > -1"
+            *ngFor="let month of _months; let i=index">{{month}}</button>
+    </div>
 </div>
-<div class="quick-select-sec"> 
-     <button (click)="selectQuater(1)" [class.selected]="checkQuarterSelected(1)">Q 1</button> 
-     <button (click)="selectQuater(2)" [class.selected]="checkQuarterSelected(2)">Q 2</button> 
-     <button (click)="selectQuater(3)" [class.selected]="checkQuarterSelected(3)">Q 3</button> 
-     <button (click)="selectQuater(4)" [class.selected]="checkQuarterSelected(4)">Q 4</button> 
- </div>
- <div class="quick-select-sec"> 
-     <button  (click)="selectMonth($event)" [attr.month]="i" [class.selected]="activeMonth == i" *ngFor="let month of _months; let i=index">{{month}}</button> 
-  </div>
-<div class="calendar-button-sec">
-  <button mat-button color="primary" (click)="onCancel()">Wyczyść</button>
-  <button mat-raised-button color="primary" (click)="onApply()">Zastosuj</button>
-</div> 
+
+<div [class.line-top]="!showQuartersAndMonths" class="calendar-button-sec">
+    <button mat-button color="primary" (click)="onCancel()">Wyczyść</button>
+    <button mat-raised-button color="primary" (click)="onApply()">Zastosuj</button>
+</div>

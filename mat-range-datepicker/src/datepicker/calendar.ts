@@ -80,7 +80,7 @@ export class SatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
     /** Whenever datepicker is for selecting range of dates. */
     @Input() rangeMode = false;
-
+   
     /** Emits when new pair of dates selected. */
     // @Output() dateRangesChange = new EventEmitter<matRangeDatepickerRangeValue<D>>();
     @Output() dateSelected = new EventEmitter<matRangeDatepickerRangeValue<D>>();

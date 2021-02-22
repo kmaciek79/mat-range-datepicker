@@ -7,7 +7,7 @@
             [(ngModel)]="date"
             (dateInput)="onDateInput($event)"
             (dateChange)="onDateChange($event)">
-    <mat-range-datepicker
+    <mat-range-datepicker [showQuartersAndMonths]="true"
             #resultPicker [rangeMode]="true" opened="true">
     </mat-range-datepicker>
     <mat-range-datepicker-toggle matSuffix [for]="resultPicker"></mat-range-datepicker-toggle>

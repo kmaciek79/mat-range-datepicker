@@ -65,6 +65,7 @@ export type SatCalendarView = 'month' | 'year' | 'multi-year';
 })
 export class RangeCalendar<D> implements OnInit {
     @Input() id: any;
+    @Input() showQuartersAndMonths: boolean = false;
     @Input() ngClass: any;
     @Input() startAt: any;
     @Input() startView: any;
@@ -81,17 +82,22 @@ export class RangeCalendar<D> implements OnInit {
     @Output() monthSelected: any = new EventEmitter();
     @Output() _userSelection: any = new EventEmitter();
     /** Whenever user already selected start of dates interval. */
-    _years:any = [];
+    _years: any = [];
+    _selectedMonths: any = [];
+    _selectedQuarters: any = [];
     _todayYear: number;
     activeYear: any;
     activeMonth: any;
-    _todayDate: Date =  new Date();
-    _todayMonth:number =  this._todayDate.getMonth();
+    activeQuarter: any;
+    _rangeIsSet: boolean = false;
+    _rangeQuarterIsSet: boolean = false;
+    _todayDate: Date = new Date();
+    _todayMonth: number = this._todayDate.getMonth();
     private _activeDate: D;
     private _beginDateSelected = false;
     @ViewChild('year') yearSel: ElementRef;
 
-    _months =  ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip","Sie", "Wrz", "Paź", "Lis", "Gru"];
+    _months = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
 
     constructor(_intl: matRangeDatepickerIntl,
         @Optional() private _dateAdapter: DateAdapter<D>,
@@ -105,13 +111,13 @@ export class RangeCalendar<D> implements OnInit {
             throw createMissingDateImplError('MAT_DATE_FORMATS');
         }
     }
- 
+
     _reset() {
-         this.beginDate =  this.endDate = null;
+        this.beginDate = this.endDate = null;
     }
 
     ngOnInit() {
-        
+
         this._activeDate = this._dateAdapter.today();
         this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());
         this.activeYear = this._dateAdapter.getYear(this._activeDate);
@@ -124,7 +130,7 @@ export class RangeCalendar<D> implements OnInit {
     }
 
     _dateSelected(date: D): void {
-        
+
         if (this.rangeMode) {
             if (!this._beginDateSelected) {
                 this._beginDateSelected = true;
@@ -141,10 +147,13 @@ export class RangeCalendar<D> implements OnInit {
         } else if (!this._dateAdapter.sameDate(date, this.selected)) {
             this.selectedChange.emit(date);
         }
-         this.activeMonth = this.activeYear = null;
+        this.activeMonth = this.activeYear = null;
     }
 
     _getQuarterDates(quarter: number) {
+
+        // console.log(this.activeYear);
+        // console.log(quarter);
 
         const _year = this._dateAdapter.getYear(this._dateAdapter.today());
         const begin = this._dateAdapter.createDate(this.activeYear, (quarter - 1) * 3, 1);
@@ -164,36 +173,123 @@ export class RangeCalendar<D> implements OnInit {
         return ({ begin, end })
     }
 
-    
 
-     _getMonthDates(month: number) {
-            this.selectYearA(this.activeYear);
-            const daysInMonth = this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(this.activeYear, month, 1));
-            const begin = this._dateAdapter.createDate(this.activeYear, month, 1);
-            const end = this._dateAdapter.createDate(this.activeYear, month, daysInMonth);
-            return ({ begin, end })
-     }
 
-    selectQuater(quarter: number) {
-        this.activeMonth = null;
-        this.selectYearA(this.activeYear);
-        this.dateRangesChange.emit(this._getQuarterDates(quarter));
+    _getMonthDates(month: number) {
+        const daysInMonth = this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(this.activeYear, month, 1));
+        const begin = this._dateAdapter.createDate(this.activeYear, month, 1);
+        const end = this._dateAdapter.createDate(this.activeYear, month, daysInMonth);
+        return ({ begin, end })
     }
+
 
     selectYearA(year) {
-          this.activeYear = year;
+        this.activeYear = year;
+        this._reset();
     }
 
+
     selectYear($event) {
-          this._reset();
-          this.activeMonth = null;  
-          this.activeYear = $event.srcElement.attributes.year.value;
+        this._reset();
+        this.activeYear = $event.srcElement.attributes.year.value;
+        this.activeMonth = this.activeQuarter = null;
+        this._selectedQuarters = this._selectedMonths =  [];
     }
- 
+
+    selectYearB($event) {
+        this._reset();
+        this.activeYear = $event.target.value;
+        this.activeMonth = this.activeQuarter = null;
+        this._selectedQuarters = this._selectedMonths =  [];
+    }
+
     selectMonth($event) {
-        this.activeMonth = $event.srcElement.attributes.month.value;
-        this.dateRangesChange.emit(this._getMonthDates($event.srcElement.attributes.month.value));
+
+        if (!!this.activeQuarter) {
+            this.activeQuarter = null;
+            this._rangeQuarterIsSet = false;
+            this._selectedQuarters = [];
+            this.activeMonth = null;
+            this._rangeIsSet = true;
+        }
+
+
+        if (this._rangeIsSet) {
+            this._selectedMonths = [];
+            this.activeMonth = parseInt($event.srcElement.attributes.month.value);
+            this.dateRangesChange.emit(this._getMonthDates($event.srcElement.attributes.month.value));
+            this._rangeIsSet = false;
+        }
+
+        else {
+
+            if ($event.srcElement.attributes.month.value < this.activeMonth) {
+                for (let i = $event.srcElement.attributes.month.value; i <= this.activeMonth; i++) {
+                    this._selectedMonths.push(parseInt(i));
+                }
+            }
+            else {
+                for (let i = this.activeMonth; i <= $event.srcElement.attributes.month.value; i++) {
+                    this._selectedMonths.push(parseInt(i));
+                }
+            }
+
+            this.activeMonth = parseInt($event.srcElement.attributes.month.value);
+
+            if (this._selectedMonths.length > 0) {
+
+                let firstMonthDate = this._getMonthDates(this._selectedMonths[0]);
+                let lastMonthDate = this._getMonthDates(this._selectedMonths[this._selectedMonths.length - 1]);
+                this.dateRangesChange.emit({ 'begin': firstMonthDate['begin'], 'end': lastMonthDate['end'] });
+                this._rangeIsSet = true;
+            }
+            else {
+                this.dateRangesChange.emit(this._getMonthDates($event.srcElement.attributes.month.value));
+            }
+        }
     }
+
+    selectQuater(quarter: number) {
+
+        this.activeMonth = null;
+        this._rangeIsSet = false;
+        this._selectedMonths = [];
+
+        if (this._rangeQuarterIsSet) {
+            this._selectedQuarters = [];
+            this.activeQuarter = quarter;
+            this.dateRangesChange.emit(this._getQuarterDates(quarter));
+            this._rangeQuarterIsSet = false;
+        }
+        else {
+            if (!!this.activeQuarter) {
+                if (quarter < this.activeQuarter) {
+                    for (let i = quarter; i <= this.activeQuarter; i++) {
+                        this._selectedQuarters.push(i);
+                    }
+                }
+                else {
+
+                    for (let i = this.activeQuarter; i <= quarter; i++) {
+                        this._selectedQuarters.push(parseInt(i));
+                    }
+                }
+            }
+
+            this.activeQuarter = quarter;
+
+            if (this._selectedQuarters.length > 0) {
+                let firstQDate = this._getQuarterDates(this._selectedQuarters[0]);
+                let lastQDate = this._getQuarterDates(this._selectedQuarters[this._selectedQuarters.length - 1]);
+                this.dateRangesChange.emit({ 'begin': firstQDate['begin'], 'end': lastQDate['end'] });
+                this._rangeQuarterIsSet = true;
+            }
+            else {
+                this.dateRangesChange.emit(this._getQuarterDates(quarter));
+            }
+        }
+    }
+
 
     checkQuarterSelected(quarter: number) {
         const { begin, end } = this._getQuarterDates(quarter);

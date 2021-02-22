@@ -173,7 +173,8 @@ export class matRangeDatepicker<D> implements OnDestroy, CanColor {
   /** Whenever datepicker is for selecting range of dates. */
 
   @Input() clearOnClose: boolean = false;  
-
+  @Input() showQuartersAndMonths: boolean =  false;
+  
   @Input()
   get rangeMode(): boolean {
     return this._rangeMode;
