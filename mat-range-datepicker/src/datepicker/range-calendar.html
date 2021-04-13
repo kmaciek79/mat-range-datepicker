@@ -16,7 +16,7 @@
 </div>
 <div [class.hide]="!showQuartersAndMonths">
     <div class="quick-select-sec">
-        <select (change)="selectYearB($event)" id="years">
+        <select #year (change)="selectYearB($event)" id="years">
             <option [attr.year]="year" [selected]="activeYear == year" *ngFor="let year of _years; let i=index">{{year}}
             </option>
         </select>

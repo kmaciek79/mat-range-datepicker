@@ -130,6 +130,9 @@ export class RangeCalendar<D> implements OnInit {
     }
 
     _dateSelected(date: D): void {
+ 
+
+        //alert(this.activeYear);
 
         if (this.rangeMode) {
             if (!this._beginDateSelected) {
@@ -147,22 +150,25 @@ export class RangeCalendar<D> implements OnInit {
         } else if (!this._dateAdapter.sameDate(date, this.selected)) {
             this.selectedChange.emit(date);
         }
-        this.activeMonth = this.activeYear = null;
+
+        this.activeMonth = null;
+        this.activeYear = this.endDate.getFullYear();
     }
 
     _getQuarterDates(quarter: number) {
 
         // console.log(this.activeYear);
         // console.log(quarter);
-
+      
         const _year = this._dateAdapter.getYear(this._dateAdapter.today());
         const begin = this._dateAdapter.createDate(this.activeYear, (quarter - 1) * 3, 1);
+ 
         const end = (
             quarter === 4
                 ?
                 this._dateAdapter.addCalendarDays(
-                    this._dateAdapter.createDate(this.activeYear + 1, 0, 1),
-                    -1
+                    this._dateAdapter.createDate(this.activeYear,11, 1),
+                   30
                 )
                 :
                 this._dateAdapter.addCalendarDays(
@@ -170,6 +176,7 @@ export class RangeCalendar<D> implements OnInit {
                     -1
                 )
         );
+
         return ({ begin, end })
     }
 
@@ -251,6 +258,10 @@ export class RangeCalendar<D> implements OnInit {
 
     selectQuater(quarter: number) {
 
+        if(!this.activeYear) {
+           this.activeYear =  this.yearSel.nativeElement.value;
+        }
+
         this.activeMonth = null;
         this._rangeIsSet = false;
         this._selectedMonths = [];
@@ -283,8 +294,10 @@ export class RangeCalendar<D> implements OnInit {
                 let lastQDate = this._getQuarterDates(this._selectedQuarters[this._selectedQuarters.length - 1]);
                 this.dateRangesChange.emit({ 'begin': firstQDate['begin'], 'end': lastQDate['end'] });
                 this._rangeQuarterIsSet = true;
+                
             }
             else {
+               
                 this.dateRangesChange.emit(this._getQuarterDates(quarter));
             }
         }
